@@ -18,9 +18,9 @@ validateAuthInputs(String val, int max, int min, FieldInputType type) {
       if (!GetUtils.isPhoneNumber(val)) return "Invalid phone number";
       break;
     case FieldInputType.password:
-      if (!val.contains(RegExp(r'[A-Z]')) ||
-          !val.contains(RegExp(r'[a-z]')) ||
-          !val.contains(RegExp(r'[0-9]'))) {
+      if (
+          // !val.contains(RegExp(r'[A-Z]')) ||
+          !val.contains(RegExp(r'[a-z]')) || !val.contains(RegExp(r'[0-9]'))) {
         return "Password must contain at least one uppercase letter one lowercase letter and one number";
       }
     case FieldInputType.number:

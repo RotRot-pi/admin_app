@@ -39,25 +39,23 @@ class LogInControllerImpl extends LogInController {
       );
       requestStatus = handelingData(response);
       print("requestStatus:$requestStatus");
-      if (requestStatus == RequestStatus.success) {
-        if (response['status'] == 'success') {
-          var data = response['data'];
-          if (data['admin_approve'] == 1) {
-            _appServices.sharedPreferences
-              ..setInt("id", data['admin_id'])
-              ..setString('adminname', data['admin_name'])
-              ..setString('email', data['admin_email'])
-              ..setString('phone', data['admin_phone'])
-              ..setInt('step', 2);
-            _appServices.messaging.subscribeToTopic("admins");
-            _appServices.messaging
-                .subscribeToTopic("admins${data['admin_id']}");
+      if (requestStatus == RequestStatus.success &&
+          response['status'] == 'success') {
+        var data = response['data'];
+        if (data['admin_approve'] == 1) {
+          _appServices.sharedPreferences
+            ..setInt("id", data['admin_id'])
+            ..setString('adminname', data['admin_name'])
+            ..setString('email', data['admin_email'])
+            ..setString('phone', data['admin_phone'])
+            ..setInt('step', 2);
+          _appServices.messaging.subscribeToTopic("admins");
+          _appServices.messaging.subscribeToTopic("admins${data['admin_id']}");
 
-            goToHomePage();
-          } else {
-            Get.toNamed(AppRoutes.verifySignUpCode,
-                arguments: {'email': emailController.text});
-          }
+          goToHomePage();
+        } else {
+          Get.toNamed(AppRoutes.verifySignUpCode,
+              arguments: {'email': emailController.text});
         }
       } else {
         Get.defaultDialog(

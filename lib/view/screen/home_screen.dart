@@ -10,6 +10,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -28,9 +29,21 @@ class HomeScreen extends StatelessWidget {
           ),
           backgroundColor: AppColors.primaryColor,
         ),
+        //To make a widget responsive for different screen sizes
+        // ScreenTypeLayout(
+        //   mobile: const SizedBox(),
+        //   tablet: const SizedBox(),
+        // ),
         body: GridView(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3, mainAxisExtent: 150.h),
+                //To make the Layout for different screen sizes
+                crossAxisCount: getValueForScreenType<int>(
+                  context: context,
+                  mobile: 3,
+                  tablet: 4,
+                  desktop: 5,
+                ),
+                mainAxisExtent: 150.h),
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             children: [
